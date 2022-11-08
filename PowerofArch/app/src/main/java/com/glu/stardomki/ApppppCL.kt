@@ -65,6 +65,7 @@ class Adv (context: Context) {
             adInfo.start()
             val adIdInfo = adInfo.info
             Log.d("getAdvertisingId = ", adIdInfo.id.toString())
-            adIdInfo.id!!
-        }
+            adIdInfo.id
+
+    }
 }

@@ -142,9 +142,7 @@ class Web : AppCompatActivity() {
                 chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent)
                 chooserIntent.putExtra(Intent.EXTRA_TITLE, getString(R.string.image_chooser))
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray)
-                startActivityForResult(
-                    chooserIntent, FILECHOOSERRESULTCODE
-                )
+                startActivityForResult(chooserIntent, FILECHOOSERRESULTCODE)
                 return true
             }
 

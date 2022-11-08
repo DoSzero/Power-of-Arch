@@ -20,12 +20,12 @@ import kotlin.math.floor
 class RowActivity : AppCompatActivity() {
 
     private var itemsRes = intArrayOf(
-        R.drawable.coin_1,
-        R.drawable.coin_2,
-        R.drawable.coin_3,
-        R.drawable.coin_4,
-        R.drawable.coin_5,
-        R.drawable.coin_6,
+        R.drawable.animals1,
+        R.drawable.animals2,
+        R.drawable.animals3,
+        R.drawable.animals4,
+        R.drawable.animals5,
+        R.drawable.animals6,
     )
 
     var noOfBlock = 8
