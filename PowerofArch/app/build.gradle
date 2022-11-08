@@ -10,17 +10,20 @@ android {
 
     defaultConfig {
         applicationId "com.glu.stardomki"
-        minSdk 23
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -49,15 +52,15 @@ dependencies {
     implementation 'com.appsflyer:af-android-sdk:6.9.0'
     implementation 'com.onesignal:OneSignal:4.8.0'
     implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
-    implementation 'com.google.android.gms:play-services-ads-identifier:16.0.0'
-    implementation 'com.airbnb.android:lottie:5.0.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+    implementation 'com.airbnb.android:lottie:5.2.0'
 
     //Install referrer
     implementation 'com.android.installreferrer:installreferrer:2.2'
     //Hawk
     implementation "com.orhanobut:hawk:2.0.1"
     //JSoup
-    implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.jsoup:jsoup:1.14.3'
 }
