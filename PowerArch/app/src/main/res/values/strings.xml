@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Power of Arch</string>
+
+    <string name="welcome">Добро пожаловать</string>
+    <string name="name">Имя</string>
+    <string name="start">Начало</string>
+
+    <string name="image_chooser">Choose Image</string>
+
+    <string name="facebook_app_id">1486416928527076</string>
+    <string name="fb_login_protocol_scheme">fb1486416928527076</string>
+</resources>
