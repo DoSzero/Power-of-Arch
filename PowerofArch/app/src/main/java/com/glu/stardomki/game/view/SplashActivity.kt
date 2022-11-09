@@ -6,15 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.glu.stardomki.databinding.ActivitySplahBinding
+import com.glu.stardomki.databinding.ActivitySplashBinding
+
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySplahBinding
+    private lateinit var binding: ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySplahBinding.inflate(layoutInflater)
+
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         Handler(Looper.getMainLooper()).postDelayed({

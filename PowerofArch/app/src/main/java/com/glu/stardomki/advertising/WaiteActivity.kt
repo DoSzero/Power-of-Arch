@@ -5,15 +5,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.glu.stardomki.ApppppCL.Companion.AF_DEV_KEY
-import com.glu.stardomki.ApppppCL.Companion.C1
-import com.glu.stardomki.ApppppCL.Companion.CH
-import com.glu.stardomki.ApppppCL.Companion.D1
-import com.glu.stardomki.ApppppCL.Companion.linkAppsCheckPart1
-import com.glu.stardomki.ApppppCL.Companion.linkAppsCheckPart2
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
 import com.facebook.applinks.AppLinkData
+import com.glu.stardomki.advertising.models.InfoConst.AF_DEV_KEY
+import com.glu.stardomki.advertising.models.InfoConst.HW_C1
+import com.glu.stardomki.advertising.models.InfoConst.CH
+import com.glu.stardomki.advertising.models.InfoConst.HW_D1
+import com.glu.stardomki.advertising.models.InfoConst.URL_APPS_1
+import com.glu.stardomki.advertising.models.InfoConst.URL_APPS_2
 import com.glu.stardomki.databinding.ActivityWaiteBinding
 import kotlinx.coroutines.*
 import com.glu.stardomki.game.view.SplashActivity
@@ -23,32 +23,22 @@ import java.net.URL
 
 class WaiteActivity : AppCompatActivity() {
 
-    private lateinit var bindMain: ActivityWaiteBinding
-
-    var checker: String = "null"
-    lateinit var jsoup: String
+    private lateinit var bindWaite: ActivityWaiteBinding
+    private var checker: String = "null"
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bindMain = ActivityWaiteBinding.inflate(layoutInflater)
-        setContentView(bindMain.root)
-        jsoup = ""
+
+        bindWaite = ActivityWaiteBinding.inflate(layoutInflater)
+        setContentView(bindWaite.root)
+
         deePP(this)
 
-        val prefs = getSharedPreferences("ActivityPREF", MODE_PRIVATE)
-        if (prefs.getBoolean("activity_exec", false)) {
-            //второе включение
+        val sp = getSharedPreferences("ActivityPREF", MODE_PRIVATE)
+        if (sp.getBoolean("activity_exec", false)) {
             val sharPref = getSharedPreferences("SP", MODE_PRIVATE)
             when (sharPref.getString(CH, "null")) {
-                /*
-                  Логика второго открытия: пресеты 2 и 3 являются НЕактивными
-                  пресет 2 скипает всю логику, кроме дипа, и открывает заглушку
-                  пресет 3 теперь предназначен для ЮАК отлива и включается после метки ФБ
-                  пресет 4 нужен на случай отключения аппса, берет дип и открывает вью
-                  пресеты nm, dp, org возможны только при пресете 1 в apps.txt
-                  эти пресеты нужны для повторного открытия
-                */
                 "2" -> {
                     skipMe()
                 }
@@ -74,13 +64,14 @@ class WaiteActivity : AppCompatActivity() {
 
         } else {
             //первое включение
-            val exec = prefs.edit()
+            val exec = sp.edit()
             exec.putBoolean("activity_exec", true)
             exec.apply()
 
             val job = GlobalScope.launch(Dispatchers.IO) {
-                checker = getCheckCode(linkAppsCheckPart1+linkAppsCheckPart2)
+                checker = getCheckCode(URL_APPS_1+URL_APPS_2)
             }
+
             runBlocking {
                 try {
                     job.join()
@@ -94,14 +85,17 @@ class WaiteActivity : AppCompatActivity() {
                     AppsFlyerLib.getInstance().start(this)
                     afNullRecordedOrNotChecker(1500)
                 }
+
                 "2" -> {
                     skipMe()
                 }
+
                 "3" -> {
                     AppsFlyerLib.getInstance().init(AF_DEV_KEY, conversionDataListener, applicationContext)
                     AppsFlyerLib.getInstance().start(this)
                     afRecordedForUAC(1500)
                 }
+
                 "4" -> {
                     testWV()
                 }
@@ -125,7 +119,6 @@ class WaiteActivity : AppCompatActivity() {
 
         return try {
             when (val text = urlConnection.inputStream.bufferedReader().readText()) {
-
                 "1" -> {
                     Log.d("jsoup status", text)
                     oneStr
@@ -152,8 +145,7 @@ class WaiteActivity : AppCompatActivity() {
                     editor.putString(CH, fourStr)
                     editor.apply()
                     fourStr
-                }
-                else -> {
+                } else -> {
                     Log.d("jsoup status", "is null")
                     activeStrn
                 }
@@ -165,13 +157,16 @@ class WaiteActivity : AppCompatActivity() {
     }
 
     private fun afNullRecordedOrNotChecker(timeInterval: Long): Job {
-
         val sharPref = getSharedPreferences("SP", MODE_PRIVATE)
+
         return CoroutineScope(Dispatchers.IO).launch {
             while (NonCancellable.isActive) {
-                val hawk1: String? = sharPref.getString(C1, null)
-                val hawkdeep: String? = sharPref.getString(D1, "null")
+
+                val hawk1: String? = sharPref.getString(HW_C1, null)
+                val hawkdeep: String? = sharPref.getString(HW_D1, "null")
+
                 if (hawk1 != null) {
+
                     Log.d("TestInUIHawk", hawk1.toString())
                     if(hawk1.contains("tdb2")){
                         Log.d("zero_filter_2", "hawkname received")
@@ -179,13 +174,11 @@ class WaiteActivity : AppCompatActivity() {
                         editor.putString(CH, "nm")
                         editor.apply()
                         testWV()
-                    } else if (hawkdeep != null){
-                        if(hawkdeep.contains("tdb2"))
-                           {
-                            Log.d("zero_filter_2", "hawkdeep received")
-                            testWV()
-                           }
-                        else{
+                    } else if (hawkdeep != null) {
+                        if(hawkdeep.contains("tdb2")) {
+                                Log.d("zero_filter_2", "hawkdeep received")
+                                testWV()
+                        } else {
                             Log.d("zero_filter_2", "hawkdeep wrong")
                             val editor = sharPref.edit()
                             editor.putString(CH, "org")
@@ -195,7 +188,7 @@ class WaiteActivity : AppCompatActivity() {
                     }
                     break
                 } else {
-                    val hawk1: String? = sharPref.getString(C1, null)
+                    val hawk1: String? = sharPref.getString(HW_C1, null)
                     Log.d("TestInUIHawkNulled", hawk1.toString())
                     delay(timeInterval)
                 }
@@ -207,13 +200,13 @@ class WaiteActivity : AppCompatActivity() {
         val sharPref = getSharedPreferences("SP", MODE_PRIVATE)
         return CoroutineScope(Dispatchers.IO).launch {
             while (NonCancellable.isActive) {
-                val hawk1: String? = sharPref.getString(C1, null)
+                val hawk1: String? = sharPref.getString(HW_C1, null)
                 if (hawk1 != null) {
                     Log.d("dev_test", "Hawk!null")
                     testMeUAC()
                     break
                 } else {
-                    val hawk1: String? = sharPref.getString(C1, null)
+                    val hawk1: String? = sharPref.getString(HW_C1, null)
                     delay(timeInterval)
                 }
             }
@@ -225,7 +218,7 @@ class WaiteActivity : AppCompatActivity() {
             val sharPref = applicationContext.getSharedPreferences("SP", MODE_PRIVATE)
             val editor = sharPref.edit()
             val dataGotten = data?.get("campaign").toString()
-            editor.putString(C1,dataGotten)
+            editor.putString(HW_C1,dataGotten)
             editor.apply()
         }
 
@@ -247,7 +240,7 @@ class WaiteActivity : AppCompatActivity() {
     }
 
     private fun testMeUAC() {
-        Intent(this, FilterMeLater::class.java)
+        Intent(this, FilterActivity::class.java)
             .also { startActivity(it) }
         finish()
     }
@@ -258,7 +251,7 @@ class WaiteActivity : AppCompatActivity() {
         finish()
     }
 
-    fun deePP(context: Context) {
+    private fun deePP(context: Context) {
         val sharPref = applicationContext.getSharedPreferences("SP", MODE_PRIVATE)
         val editor = sharPref.edit()
         AppLinkData.fetchDeferredAppLinkData(
@@ -267,7 +260,7 @@ class WaiteActivity : AppCompatActivity() {
             appLinkData?.let {
                 val params = appLinkData.targetUri.host
                 //тест
-                editor.putString(D1,params.toString())
+                editor.putString(HW_D1,params.toString())
                 editor.apply()
                     if (params!!.contains("tdb2")){
                         editor.putString(CH, "dp")
@@ -283,9 +276,4 @@ class WaiteActivity : AppCompatActivity() {
 
         }
     }
-
-
-
-
-
 }

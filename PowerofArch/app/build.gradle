@@ -62,8 +62,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     implementation 'com.google.android.gms:play-services-ads-identifier:16.0.0'
-    implementation 'com.airbnb.android:lottie:5.2.0'
 
+    implementation 'com.airbnb.android:lottie:5.2.0'
     //Install referrer
     implementation 'com.android.installreferrer:installreferrer:2.2'
     //Hawk
