@@ -205,8 +205,9 @@ class WaiteActivity : AppCompatActivity() {
                     Log.d("dev_test", "Hawk!null")
                     testMeUAC()
                     break
+
                 } else {
-                    val hawk1: String? = sharPref.getString(HW_C1, null)
+                    sharPref.getString(HW_C1, null)
                     delay(timeInterval)
                 }
             }

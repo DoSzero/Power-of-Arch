@@ -16,7 +16,6 @@ class AppClass: Application() {
         GlobalScope.launch(Dispatchers.IO) {
             applyDeviceId(context = applicationContext)
         }
-
         OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
         OneSignal.initWithContext(this)
         OneSignal.setAppId(ONESIGNAL_APP_ID)

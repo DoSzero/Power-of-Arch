@@ -26,13 +26,13 @@ import java.io.IOException
 
 class Web : AppCompatActivity() {
 
+    lateinit var vv: WebView
+    lateinit var bind: ActivityWebBinding
     private val FILE_CHOOSER_RESULT_CODE = 1
 
     // the same for Android 5.0 methods only
     var mFilePathCallback: ValueCallback<Array<Uri>>? = null
     var mCameraPhotoPath: String? = null
-    lateinit var vv: WebView
-    lateinit var bind: ActivityWebBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,36 +154,29 @@ class Web : AppCompatActivity() {
     private fun pushToOneSignal(string: String) {
         // Setting External User Id with Callback Available in SDK Version 4.0.0+
         OneSignal.setExternalUserId(string,object: OneSignal.OSExternalUserIdUpdateCompletionHandler {
-                override fun onSuccess(results: JSONObject) {
-                    try {
-                        if (results.has("push") && results.getJSONObject("push").has("success")) {
-                            val isPushSuccess = results.getJSONObject("push").getBoolean("success")
-
-                            OneSignal.onesignalLog(OneSignal.LOG_LEVEL.VERBOSE,
-                                "Set external user id for push status: $isPushSuccess"
-                            )
-                        }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+            override fun onSuccess(results: JSONObject) {
+                try {
+                    if (results.has("push") && results.getJSONObject("push").has("success")) {
+                        val isPushSuccess = results.getJSONObject("push").getBoolean("success")
+                        OneSignal.onesignalLog(OneSignal.LOG_LEVEL.VERBOSE,"Set external user id for push status: $isPushSuccess")
                     }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
 
-                    try {
-                        if (results.has("email") && results.getJSONObject("email").has("success")) {
-                            val isEmailSuccess = results.getJSONObject("email").getBoolean("success")
-                            OneSignal.onesignalLog(OneSignal.LOG_LEVEL.VERBOSE,
-                                "Set external user id for email status: $isEmailSuccess"
-                            )
-                        }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
+                try {
+                    if (results.has("email") && results.getJSONObject("email").has("success")) {
+                        val isEmailSuccess = results.getJSONObject("email").getBoolean("success")
+                        OneSignal.onesignalLog(OneSignal.LOG_LEVEL.VERBOSE,"Set external user id for email status: $isEmailSuccess")
                     }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
 
-                    try {
-                        if (results.has("sms") && results.getJSONObject("sms").has("success")) {
-                            val isSmsSuccess = results.getJSONObject("sms").getBoolean("success")
-                            OneSignal.onesignalLog(OneSignal.LOG_LEVEL.VERBOSE,
-                                "Set external user id for sms status: $isSmsSuccess"
-                            )
+                try {
+                    if (results.has("sms") && results.getJSONObject("sms").has("success")) {
+                        val isSmsSuccess = results.getJSONObject("sms").getBoolean("success")
+                        OneSignal.onesignalLog(OneSignal.LOG_LEVEL.VERBOSE, "Set external user id for sms status: $isSmsSuccess")
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -195,6 +188,7 @@ class Web : AppCompatActivity() {
             override fun onFailure(error: OneSignal.ExternalIdError) {
                 OneSignal.onesignalLog(OneSignal.LOG_LEVEL.VERBOSE, "Set external user id done with error: $error")
             }
+
         })
     }
 
@@ -243,7 +237,6 @@ class Web : AppCompatActivity() {
         val five = "sub_id_5="
         val six = "sub_id_6="
 
-
         val first = "http://"
         val second = "powerofarch.xyz/go.php?to=2&"
 
@@ -254,17 +247,16 @@ class Web : AppCompatActivity() {
         val resultAB = first + second
 
         var after = ""
-        if (cpOne != "null") {
-            after = "$resultAB$one$cpOne&$two$afId&$three$mainId&$four$pack&$five$androidVersion&$six$namingI"
+        after = if (cpOne != "null") {
+            "$resultAB$one$cpOne&$two$afId&$three$mainId&$four$pack&$five$androidVersion&$six$namingI"
         } else {
-            after = "$resultAB$one$dpOne&$two$afId&$three$mainId&$four$pack&$five$androidVersion&$six$linkornull"
+            "$resultAB$one$dpOne&$two$afId&$three$mainId&$four$pack&$five$androidVersion&$six$linkornull"
         }
 
         Log.d("TESTAG", "Test Result $after")
         pushToOneSignal(afId.toString())
         return spoon.getString("SAVED_URL", after).toString()
     }
-
 
     private fun appInstalledOrNot(uri: String): Boolean {
         try {
@@ -276,6 +268,7 @@ class Web : AppCompatActivity() {
         return false
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode != FILE_CHOOSER_RESULT_CODE || mFilePathCallback == null) {
             super.onActivityResult(requestCode, resultCode, data)
@@ -295,6 +288,7 @@ class Web : AppCompatActivity() {
                 }
             }
         }
+
         mFilePathCallback?.onReceiveValue(results)
         mFilePathCallback = null
     }
