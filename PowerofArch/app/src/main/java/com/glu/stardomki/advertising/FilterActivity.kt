@@ -4,12 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.glu.stardomki.AppClass.Companion.DONE
+import com.glu.stardomki.AppClass.Companion.FILTER_URL_1
+import com.glu.stardomki.AppClass.Companion.FILTER_URL_2
+import com.glu.stardomki.AppClass.Companion.HW_C1
+import com.glu.stardomki.AppClass.Companion.jsoupCheck
 import com.glu.stardomki.R
-import com.glu.stardomki.advertising.models.InfoConst.HW_C1
-import com.glu.stardomki.advertising.models.InfoConst.jsoupCheck
-import com.glu.stardomki.advertising.models.InfoConst.FILTER_URL_1
-import com.glu.stardomki.advertising.models.InfoConst.FILTER_URL_2
-import com.glu.stardomki.advertising.models.InfoConst.DONE
 import kotlinx.coroutines.*
 import com.glu.stardomki.game.view.SplashActivity
 import java.net.HttpURLConnection

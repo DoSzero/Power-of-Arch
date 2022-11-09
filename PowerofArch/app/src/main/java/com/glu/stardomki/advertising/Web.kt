@@ -12,10 +12,10 @@ import android.util.Log
 import android.webkit.*
 import android.widget.Toast
 import com.appsflyer.AppsFlyerLib
+import com.glu.stardomki.AppClass.Companion.HW_C1
+import com.glu.stardomki.AppClass.Companion.HW_D1
+import com.glu.stardomki.AppClass.Companion.MAIN_ID
 import com.glu.stardomki.R
-import com.glu.stardomki.advertising.models.InfoConst.HW_C1
-import com.glu.stardomki.advertising.models.InfoConst.HW_D1
-import com.glu.stardomki.advertising.models.InfoConst.MAIN_ID
 import com.glu.stardomki.databinding.ActivityWebBinding
 import com.google.android.material.snackbar.Snackbar
 import com.onesignal.OneSignal
